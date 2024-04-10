@@ -34,7 +34,15 @@ def index(req):
 def products(req):
     products = Product.objects.all().order_by("-id")
     pagination = Paginator(products, 4)
+
     page_number = req.GET.get("page")
+    try:
+        page_number = int(page_number)
+        if page_number < 1 or page_number > pagination.num_pages:
+            raise ValueError("Invalid page number")
+    except(TypeError, ValueError):
+        return JsonResponse({"error": "Invalid page number For Client"}, status=400)
+
     products_page = pagination.get_page(page_number)
     serialized_products = list(products_page.object_list.values())
     return JsonResponse({

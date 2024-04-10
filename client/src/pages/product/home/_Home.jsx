@@ -19,10 +19,15 @@ export const Home = () => {
         setLoading(true);
         setProducts(data.products);
         setTotalPages(data.totalPages);
-        console.log(data);
-      } else {
+      }else {
         toast.error("Failed to fetch products.");
       }
+      if(response.status === 400){
+        toast.error("Invalid page number");
+        // TODO:
+        // Create a skeleton loader
+      }
+     
 
     }
     fetchProducts();

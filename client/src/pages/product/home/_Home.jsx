@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react";
-
+import "../../../styles.css"
 export const Home = () => {
   const [products, setProducts] = useState([]);
 
@@ -18,11 +18,11 @@ export const Home = () => {
   }, []);
 
   return (
-    <div>
-      <Link to="/product/new">Create new product</Link>
+    <div className="content">
+      <Link className="button"to="/product/new">Create new product</Link>
       <div>
-      <h1>Products</h1>
-      <table>
+      <h1 className="title">Products</h1>
+      <table className="table">
         <thead>
           <tr>
             <th>ID</th>
@@ -40,11 +40,11 @@ export const Home = () => {
               <td>{product.description}</td>
               <td>{product.quantity}</td>
               <td>
-                <Link to={`/product/${product.id}`}>View</Link>
+                <Link to={`/product/${product.id}`} className="button btn-view">View</Link>
                 <span> | </span>
-                <Link to={`/product/edit/${product.id}`}>Edit</Link>
+                <Link to={`/product/edit/${product.id}`} className="button btn-edit">Edit</Link>
                 <span> | </span>
-                <Link to={`/product/delete/${product.id}`}>Delete</Link>
+                <Link to={`/product/delete/${product.id}`} className="button btn-delete">Delete</Link>
               </td>
             </tr>
           ))}

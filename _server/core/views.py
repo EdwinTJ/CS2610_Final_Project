@@ -43,7 +43,6 @@ def product(req,id):
 
 @login_required
 def addProduct(req):
-   print(req.method)
    if req.method == "POST":
         body =  json.loads(req.body)
         product = Product.objects.create(
@@ -52,8 +51,6 @@ def addProduct(req):
             quantity=body["quantity"]
         )
         product.save()
-        print(body)
-        print("user", req.user)
         return JsonResponse({"success": True})
    return JsonResponse({"success": False})
 

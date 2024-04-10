@@ -15,3 +15,7 @@ This project will be a system to manage inventory
 ### Sonner
 I want to have toast for different eveents that happen in the web-site
 [Visit Sonner](https://sonner.emilkowal.ski/)
+
+### React-spinners
+For the loding stage I want to have spinners
+[Visit react-spinners](https://github.com/davidhu2000/react-spinners)

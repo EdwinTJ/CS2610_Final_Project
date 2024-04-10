@@ -41,8 +41,8 @@ export const ViewProduct = () => {
   }
 
   return (
-    <div>
-    <h1>Product Details</h1>
+    <div className="content">
+    <h1 className="title">Product Details</h1>
     <p><strong>Name:</strong> {product.name}</p>
     <p><strong>Description:</strong> {product.description}</p>
     <p><strong>Quantity:</strong> {product.quantity}</p>

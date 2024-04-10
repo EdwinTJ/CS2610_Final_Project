@@ -63,8 +63,12 @@ export const EditProduct = () => {
     }));
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
+
+  // TODO:
+  // Ask teacher why this would not work
+  // Call it in the form onSubmit
+  function handleSubmit(e) {
+    e.preventDefault();
     updateProduct();
   }
  
@@ -85,8 +89,9 @@ export const EditProduct = () => {
 
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="content">
+      <h1 className="title">Edit Product</h1>
+      <form onSubmit={updateProduct}>
         <label>Product Name:</label>
         <input type="text" name="name" value={editedProduct.name} onChange={handleChange} />
         <label>Description:</label>

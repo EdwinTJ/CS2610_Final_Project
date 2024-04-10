@@ -53,7 +53,10 @@ export const DeleteProduct = () => {
     setLoading(false);
   }
 
-  function handleDelete() {
+  // TODO:
+  // Ask teacher why this would not work
+  // Call it in the form onSubmit
+  function handleDelete(e) {
     deleteProduct();
   }
 
@@ -73,14 +76,15 @@ export const DeleteProduct = () => {
   }
 
   return (
-    <div>
+    <div className="content">
+      <h1 className="title">Delete Product</h1>
+      <form onSubmit={deleteProduct}>
       <label>Product Name:</label>
       <input type="text" value={product.name} readOnly />
       <label>Description:</label>
-      <textarea value={product.description} readOnly />
+      <textarea value={product.description} readOnly readonly="readonly"/>
       <label>Quantity:</label>
-      <input type="number" value={product.quantity} readOnly />
-      <div>
+      <input type="number" value={product.quantity} readOnly readonly="readonly" />
         <p>Are you sure you want to delete this product?</p>
         {loading ? (
           <div style={{ display: "flex"}}>
@@ -92,10 +96,9 @@ export const DeleteProduct = () => {
               data-testid="loader"
             />
           </div>
-        ) : (
-          <button onClick={deleteProduct}>Delete</button>
-        )}
-      </div>
+        ) : 
+        (<button type="submit">Delete</button>)}
+      </form>
     </div>
   );
 };

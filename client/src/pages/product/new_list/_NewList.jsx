@@ -1,6 +1,7 @@
 import { useState } from "react";
 import cookie from "cookie";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export const NewList = () => {
   const [name, setName] = useState("");
@@ -25,12 +26,12 @@ export const NewList = () => {
       })
     });
     const data = await res.json();
-    console.log(data);
     if (data.success === true) {
+      toast.success("Product added successfully.");
       navigate(-1); 
     } else {
-      console.error("Failed to add product.");
-      // Handle error appropriately
+      toast.error("Failed to add product.");
+      navigate(-1);
     }
   }
 

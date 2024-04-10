@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import cookie from "cookie";
-
+import {toast} from "sonner";
 export const EditProduct = () => {
   const { id } = useParams(); // Access the ID from the URL
-  const [success, setSuccess] = useState(false);
   const [product, setProduct] = useState(null);
   const [editedProduct, setEditedProduct] = useState(null);
   const navigate = useNavigate();
@@ -41,14 +40,13 @@ export const EditProduct = () => {
         body: JSON.stringify(editedProduct)
       });
       if (response.ok) {
-        setSuccess(true);
-        console.log("Product updated successfully.");
+        toast.success("Product updated successfully.");
         navigate("/"); // Redirect to home page after successful update
       } else {
-        console.error("Failed to update product.");
+        toast.error("Failed to update product.");
       }
     } catch (error) {
-      console.error("Error updating product:", error);
+      toast.error("Error updating product:");
     }
   }
 

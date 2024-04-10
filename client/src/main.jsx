@@ -4,6 +4,9 @@ import App from './App.jsx'
 import './index.css'
 import 'vite/modulepreload-polyfill'
 import {createHashRouter, RouterProvider} from "react-router-dom";
+
+import {Toaster} from "sonner";
+// Import the pages
 import { Home } from './pages/product/home/_Home.jsx'
 import { NewList } from './pages/product/new_list/_NewList.jsx'
 import { DeleteProduct } from './pages/product/delete/_DeleteProduct.jsx'
@@ -37,5 +40,11 @@ const router = createHashRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <>
   <RouterProvider router={router} />
+  <Toaster 
+  richColors
+  position="top-right"
+  />
+  </>
 )

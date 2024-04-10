@@ -13,19 +13,14 @@ export const ViewProduct = () => {
   const productID = parseInt(id); // Convert the ID to an integer using
   useEffect(() => {
     async function fetchProduct() {
-      try {
         const response = await fetch(`/product/${productID}/`);
         const data = await response.json();
         if (response.ok) {
           setProduct(data.product);
           setEditedProduct(data.product);
         } else {
-          toast.error("Failed to fetch product.");
-          
+          toast.error("Failed to fetch product."); 
         }
-      } catch (error) {
-        toast.error("Failed to fetch product.");
-      }
     }
     fetchProduct();
   }, [id]);

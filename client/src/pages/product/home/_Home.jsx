@@ -1,21 +1,40 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react";
 import "../../../styles.css"
+import {toast} from "sonner"
+import { FadeLoader } from "react-spinners";
+
 export const Home = () => {
   const [products, setProducts] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function fetchProducts() {
       const response = await fetch("/products/");
       const data = await response.json();
       if (response.ok) {
+        setLoading(true);
         setProducts(data.products);
       } else {
-        console.error("Failed to fetch products.");
+        toast.error("Failed to fetch products.");
       }
     }
     fetchProducts();
   }, []);
+
+  if (!loading) {
+    return(
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <FadeLoader
+            color={"#123abc"}
+            loading={true}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+      </div>
+ 
+    );      
+  }
 
   return (
     <div className="content">

@@ -2,15 +2,18 @@ import { useState } from "react";
 import cookie from "cookie";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import { FadeLoader,BeatLoader } from "react-spinners";
 
 export const NewList = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function saveProduct(e) {
     e.preventDefault();
+    setLoading(true);
     const { csrftoken } = cookie.parse(document.cookie);
     const res = await fetch("/addproduct/new/", {
       method: "POST",
@@ -33,6 +36,7 @@ export const NewList = () => {
       toast.error("Failed to add product.");
       navigate(-1);
     }
+    setLoading(false);
   }
 
   return (
@@ -49,7 +53,18 @@ export const NewList = () => {
         Quantity:
         <input type="number" value={quantity} onChange={e => setQuantity(e.target.value)} />
       </div>
-      <button type="submit">Save</button>
+      {loading ?(
+        <div style={{display : "flex"}}>
+          <BeatLoader
+          color={"#123abc"}
+          loading={true}
+          size={10}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+          />
+        </div>
+      ):
+      (<button type="submit">Save</button>)}
     </form>
   );
 };

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import cookie from "cookie";
 
+import {toast} from "sonner"
+import CircleLoader from "react-spinners/CircleLoader";
+
 export const ViewProduct = () => {
     const { id } = useParams(); // Access the ID from the URL
     const [product, setProduct] = useState(null);
@@ -17,17 +20,29 @@ export const ViewProduct = () => {
           setProduct(data.product);
           setEditedProduct(data.product);
         } else {
-          console.error("Failed to fetch product.");
+          toast.error("Failed to fetch product.");
+          
         }
       } catch (error) {
-        console.error("Error fetching product:", error);
+        toast.error("Failed to fetch product.");
       }
     }
     fetchProduct();
   }, [id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return(
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <CircleLoader
+            color={"#123abc"}
+            loading={true}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+      </div>
+ 
+    );      
   }
 
   return (

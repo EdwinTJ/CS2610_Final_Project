@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import cookie from "cookie";
 import {toast} from "sonner";
+import { FadeLoader,BeatLoader } from "react-spinners";
 export const DeleteProduct = () => {
-  const { id } = useParams(); // Access the ID from the URL
+  const { id } = useParams(); 
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const productID = parseInt(id); // Convert the ID to an integer using
@@ -26,7 +28,9 @@ export const DeleteProduct = () => {
     fetchProduct();
   }, [id]);
 
-  async function deleteProduct() {
+  async function deleteProduct(e) {
+    e.preventDefault();
+    setLoading(true);
     const { csrftoken } = cookie.parse(document.cookie);
     try {
       const response = await fetch(`/product/delete/${productID}/`, {
@@ -46,13 +50,26 @@ export const DeleteProduct = () => {
     } catch (error) {
       toast.error("Error deleting product:");
     }
+    setLoading(false);
   }
 
   function handleDelete() {
     deleteProduct();
   }
+
   if (!product) {
-    return <div>Loading...</div>;
+    return(
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <FadeLoader
+            color={"#123abc"}
+            loading={true}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+      </div>
+ 
+    );      
   }
 
   return (
@@ -65,7 +82,19 @@ export const DeleteProduct = () => {
       <input type="number" value={product.quantity} readOnly />
       <div>
         <p>Are you sure you want to delete this product?</p>
-        <button onClick={handleDelete}>Delete</button>
+        {loading ? (
+          <div style={{ display: "flex"}}>
+            <BeatLoader
+              color={"#123abc"}
+              loading={true}
+              size={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        ) : (
+          <button onClick={deleteProduct}>Delete</button>
+        )}
       </div>
     </div>
   );

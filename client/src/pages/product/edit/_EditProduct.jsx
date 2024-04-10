@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import cookie from "cookie";
 import {toast} from "sonner";
+import { FadeLoader ,BeatLoader} from "react-spinners";
 export const EditProduct = () => {
-  const { id } = useParams(); // Access the ID from the URL
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [editedProduct, setEditedProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const productID = parseInt(id); // Convert the ID to an integer using
@@ -27,7 +29,9 @@ export const EditProduct = () => {
     fetchProduct();
   }, [id]);
 
-  async function updateProduct() {
+  async function updateProduct(e) {
+    e.preventDefault();
+    setLoading(true);
     const { csrftoken } = cookie.parse(document.cookie);
     try {
       const response = await fetch(`/product/edit/${productID}/`, {
@@ -48,6 +52,7 @@ export const EditProduct = () => {
     } catch (error) {
       toast.error("Error updating product:");
     }
+    setLoading(false);
   }
 
   function handleChange(event) {
@@ -62,9 +67,22 @@ export const EditProduct = () => {
     event.preventDefault();
     updateProduct();
   }
+ 
   if (!product) {
-    return <div>Loading...</div>;
+    return(
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <FadeLoader
+            color={"#123abc"}
+            loading={true}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+      </div>
+ 
+    );      
   }
+
 
   return (
     <div>
@@ -75,7 +93,18 @@ export const EditProduct = () => {
         <textarea name="description" value={editedProduct.description} onChange={handleChange} />
         <label>Quantity:</label>
         <input type="number" name="quantity" value={editedProduct.quantity} onChange={handleChange} />
-        <button type="submit">Update</button>
+        {loading ? (
+          <div style={{display : "flex"}}>
+            <BeatLoader
+              color={"#123abc"}
+              loading={true}
+              size={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+        </div>
+        ):
+        (<button type="submit">Save</button>)}
       </form>
     </div>
   );

@@ -57,9 +57,15 @@ export const DeleteProduct = () => {
 
   return (
     <div>
-      <h1>{product.name}</h1>
-      <p>{product.description}</p>
-      <p>{product.quantity}</p>
+      <label>Product Name:</label>
+      <input type="text" value={product.name} readOnly />
+      {/* <h1>{product.name}</h1> */}
+      <label>Description:</label>
+      <textarea value={product.description} readOnly />
+      <label>Quantity:</label>
+      <input type="number" value={product.quantity} readOnly />
+      {/* <p>{product.description}</p>
+      <p>{product.quantity}</p> */}
       <div>
         <p>Are you sure you want to delete this product?</p>
         <button onClick={handleDelete}>Yes, delete</button>

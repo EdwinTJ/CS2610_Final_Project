@@ -7,6 +7,8 @@ import {createHashRouter, RouterProvider} from "react-router-dom";
 import { Home } from './pages/home/_Home.jsx'
 import { NewList } from './pages/new_list/_NewList.jsx'
 import { DeleteProduct } from './pages/delete/_DeleteProduct.jsx'
+import { EditProduct } from './pages/edit/_EditProduct.jsx'
+import { ViewProduct } from './pages/view/_ViewProduct.jsx'
 const router = createHashRouter([
   {
     path: "/",
@@ -20,11 +22,11 @@ const router = createHashRouter([
         element: <NewList />
       }, {
         path: "/product/:id",
-        element: <h1>I am on the the list page</h1>
+        element: <ViewProduct />
       }
       , {
         path: "/product/edit/:id",
-        element: <h1>Edit</h1>
+        element: <EditProduct />
       }
       , {
         path: "/product/delete/:id",

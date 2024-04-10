@@ -12,7 +12,7 @@ if not settings.DEBUG:
     f = open(f"{settings.BASE_DIR}/core/static/manifest.json")
     MANIFEST = json.load(f)
 
-# @login_required
+@login_required
 def index(req):
     user = req.user
     context = {
@@ -26,12 +26,12 @@ def index(req):
     print(user)
     return render(req, "core/index.html", context)
 
-# @login_required
+@login_required
 def products(req):
     products = Product.objects.all()
     return JsonResponse({"products": list(products.values())})
 
-# @login_required
+@login_required
 def product(req,id):
     product = Product.objects.get(id=id)
     data = {
@@ -41,7 +41,7 @@ def product(req,id):
     }
     return JsonResponse({"product": data})
 
-# @login_required
+@login_required
 def addProduct(req):
    print(req.method)
    if req.method == "POST":
@@ -57,8 +57,23 @@ def addProduct(req):
         return JsonResponse({"success": True})
    return JsonResponse({"success": False})
 
-# @login_required
+@login_required
 def deleteProduct(req, id):
     product = Product.objects.get(id=id)
     product.delete()
     return JsonResponse({"success": True})
+
+@login_required
+def editProduct(req, id):
+    if req.method == "PATCH":
+        body = json.loads(req.body)
+        try:
+            product = Product.objects.get(id=id)
+            product.name = body["name"]
+            product.description = body["description"]
+            product.quantity = body["quantity"]
+            product.save()
+            return JsonResponse({"success": True})
+        except Product.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Product not found"})
+    return JsonResponse({"success": False, "error": "Invalid request method"})

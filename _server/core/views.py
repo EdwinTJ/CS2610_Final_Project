@@ -5,6 +5,10 @@ import os
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import  Product
+# Import Pagination
+from django.core.paginator import Paginator
+
+
 
 # Load manifest when server launches
 MANIFEST = {}
@@ -28,8 +32,15 @@ def index(req):
 
 @login_required
 def products(req):
-    products = Product.objects.all()
-    return JsonResponse({"products": list(products.values())})
+    products = Product.objects.all().order_by("-id")
+    pagination = Paginator(products, 4)
+    page_number = req.GET.get("page")
+    products_page = pagination.get_page(page_number)
+    serialized_products = list(products_page.object_list.values())
+    return JsonResponse({
+        "products": serialized_products,
+        "totalPages": pagination.num_pages
+    })
 
 @login_required
 def product(req,id):
@@ -74,3 +85,8 @@ def editProduct(req, id):
         except Product.DoesNotExist:
             return JsonResponse({"success": False, "error": "Product not found"})
     return JsonResponse({"success": False, "error": "Invalid request method"})
+
+# class StandarResultsSetPagination(PageNumberPagination):
+#     page_size = 4
+#     page_size_query_param = 'page_size'
+#     max_page_size = 4

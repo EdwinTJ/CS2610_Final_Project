@@ -7,19 +7,38 @@ import { FadeLoader } from "react-spinners";
 export const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     async function fetchProducts() {
-      const response = await fetch("/products/");
+      const response = await fetch(`/products/?page=${currentPage}`);
       const data = await response.json();
       if (response.ok) {
         setLoading(true);
         setProducts(data.products);
+        setTotalPages(data.totalPages);
+        console.log(data);
       } else {
         toast.error("Failed to fetch products.");
       }
+
     }
     fetchProducts();
-  }, []);
+  }, [currentPage]);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   if (!loading) {
     return(
@@ -69,7 +88,16 @@ export const Home = () => {
           ))}
         </tbody>
       </table>
-    </div>
+      <div style={{ textAlign: "center" }}>
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            Previous Page
+          </button>
+          <span style={{ margin: "0 10px" }}>Page {currentPage} of {totalPages}</span>
+          <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+            Next Page
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

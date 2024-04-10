@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import "../styles.css";
 export const Navbar = () => {   
         const logout = async () => {
             const res = await fetch("/registration/logout/", {
@@ -15,9 +15,12 @@ export const Navbar = () => {
         };
         return (
             <>
-              <nav>
-              <Link to="/">Home</Link>
-              <button onClick={logout}>Logout</button>
+              <nav className="navbar">
+                <div className="nav-links">
+                  <Link to="/">Home</Link>
+                  <a>Users</a>
+                </div>
+                <button className="button" onClick={logout}>Logout</button>
               </nav>
             </>
           );

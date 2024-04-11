@@ -15,7 +15,6 @@ export const Home = () => {
     async function fetchProducts() {
       const response = await fetch(`/products/?page=${currentPage}`);
       const data = await response.json();
-      console.log(data);
       if (data.success === true) {
         setLoading(true);
         setProducts(data.products);

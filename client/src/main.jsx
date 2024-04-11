@@ -12,6 +12,7 @@ import { NewList } from './pages/product/new_list/_NewList.jsx'
 import { DeleteProduct } from './pages/product/delete/_DeleteProduct.jsx'
 import { EditProduct } from './pages/product/edit/_EditProduct.jsx'
 import { ViewProduct } from './pages/product/view/_ViewProduct.jsx'
+import {AdminHome} from "./pages/admin/_Home.jsx"
 const router = createHashRouter([
   {
     path: "/",
@@ -34,6 +35,10 @@ const router = createHashRouter([
       , {
         path: "/product/delete/:id",
         element: <DeleteProduct />
+      },
+      {
+        path: "/admin",
+        element: <AdminHome />
       }
     ]
   }

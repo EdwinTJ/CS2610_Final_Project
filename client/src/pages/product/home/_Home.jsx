@@ -15,17 +15,16 @@ export const Home = () => {
     async function fetchProducts() {
       const response = await fetch(`/products/?page=${currentPage}`);
       const data = await response.json();
-      if (response.ok) {
+      console.log(data);
+      if (data.success === true) {
         setLoading(true);
         setProducts(data.products);
         setTotalPages(data.totalPages);
       }else {
-        toast.error("Failed to fetch products.");
+        toast.error(data.error || "Failed to fetch products.");
       }
       if(response.status === 400){
-        toast.error("Invalid page number");
-        // TODO:
-        // Create a skeleton loader
+        toast.error(data.error || "Invalid page number");
       }
      
 

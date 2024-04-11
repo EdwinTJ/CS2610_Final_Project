@@ -25,7 +25,7 @@ export const NewList = () => {
       body: JSON.stringify({
         name,
         description,
-        quantity
+        quantity,
       })
     });
     const data = await res.json();
@@ -33,8 +33,7 @@ export const NewList = () => {
       toast.success("Product added successfully.");
       navigate(-1); 
     } else {
-      toast.error("Failed to add product.");
-      navigate(-1);
+      toast.error(data.error ||"Failed to add product.");
     }
     setLoading(false);
   }

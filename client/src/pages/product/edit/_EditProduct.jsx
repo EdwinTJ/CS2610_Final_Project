@@ -43,11 +43,12 @@ export const EditProduct = () => {
         },
         body: JSON.stringify(editedProduct)
       });
-      if (response.ok) {
+      const data = await response.json();
+      if (data.success === true) {
         toast.success("Product updated successfully.");
         navigate("/"); // Redirect to home page after successful update
       } else {
-        toast.error("Failed to update product.");
+        toast.error(data.error || "Failed to update product.");
       }
     } catch (error) {
       toast.error("Error updating product:");

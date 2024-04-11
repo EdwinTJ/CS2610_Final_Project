@@ -47,6 +47,7 @@ def products(req):
     products_page = pagination.get_page(page_number)
     serialized_products = list(products_page.object_list.values())
     return JsonResponse({
+        "success": True,
         "products": serialized_products,
         "totalPages": pagination.num_pages
     })
@@ -59,7 +60,7 @@ def product(req,id):
         "description": product.description,
         "quantity": product.quantity
     }
-    return JsonResponse({"product": data})
+    return JsonResponse({"success": True,"product": data})
 
 @login_required
 @admin_required

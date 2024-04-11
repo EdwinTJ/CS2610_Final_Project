@@ -5,6 +5,7 @@ import os
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import  Product
+from .decorators import admin_required
 # Import Pagination
 from django.core.paginator import Paginator
 
@@ -61,29 +62,32 @@ def product(req,id):
     return JsonResponse({"product": data})
 
 @login_required
+@admin_required
 def addProduct(req):
-   if req.method == "POST":
-        body =  json.loads(req.body)
-        product = Product.objects.create(
+    if req.method == "POST":
+        try:
+            body =  json.loads(req.body)
+            product = Product.objects.create(
             name=body["name"],
             description=body["description"],
             quantity=body["quantity"]
-        )
-        product.save()
-        return JsonResponse({"success": True})
-   return JsonResponse({"success": False})
+            )
+            product.save()
+            return JsonResponse({"success": True})
+        except KeyError:
+            return JsonResponse({"success": False, "error": "Invalid request body"})
+    return JsonResponse({"success": False, "error": "Something went wrong"})
 
 @login_required
+@admin_required
 def deleteProduct(req, id):
-    if req.user.is_staff:  # Check if the user is staff (admin)
-        print("User is staff")
-        try:
-            product = Product.objects.get(id=id)
-            product.delete()
-            return JsonResponse({"success": True})
-        except Product.DoesNotExist:
-            return JsonResponse({"success": False, "error": "Product not found"})
-    return JsonResponse({"success": False, "error": "Unauthorized"})
+    try:
+        product = Product.objects.get(id=id)
+        product.delete()
+        return JsonResponse({"success": True})
+    except Product.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Product not found"})
+    
 
 @login_required
 def editProduct(req, id):

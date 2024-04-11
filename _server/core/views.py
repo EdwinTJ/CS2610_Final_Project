@@ -75,9 +75,15 @@ def addProduct(req):
 
 @login_required
 def deleteProduct(req, id):
-    product = Product.objects.get(id=id)
-    product.delete()
-    return JsonResponse({"success": True})
+    if req.user.is_staff:  # Check if the user is staff (admin)
+        print("User is staff")
+        try:
+            product = Product.objects.get(id=id)
+            product.delete()
+            return JsonResponse({"success": True})
+        except Product.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Product not found"})
+    return JsonResponse({"success": False, "error": "Unauthorized"})
 
 @login_required
 def editProduct(req, id):
@@ -93,8 +99,3 @@ def editProduct(req, id):
         except Product.DoesNotExist:
             return JsonResponse({"success": False, "error": "Product not found"})
     return JsonResponse({"success": False, "error": "Invalid request method"})
-
-# class StandarResultsSetPagination(PageNumberPagination):
-#     page_size = 4
-#     page_size_query_param = 'page_size'
-#     max_page_size = 4

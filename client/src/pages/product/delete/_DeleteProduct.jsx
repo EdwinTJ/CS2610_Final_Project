@@ -41,11 +41,14 @@ export const DeleteProduct = () => {
           "X-CSRFTOKEN": csrftoken
         }
       });
-      if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      if (data.success === true) {
         toast.success("Product deleted successfully.");
         navigate("/"); // Redirect to home page after successful deletion
-      } else {
-        toast.error("Failed to delete product.");
+      } 
+      else {
+        toast.error(data.error || "Failed to delete product.");
       }
     } catch (error) {
       toast.error("Error deleting product:");

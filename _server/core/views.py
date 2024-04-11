@@ -19,7 +19,10 @@ if not settings.DEBUG:
 
 @login_required
 def index(req):
-    user = req.user
+    if req.user.is_staff:
+        user ={"is_staff" : True, "username": req.user.username}
+    else:
+        user = {"is_staff": False, "username": req.user.username}
     context = {
         "asset_url": os.environ.get("ASSET_URL", ""),
         "debug": settings.DEBUG,
@@ -28,9 +31,19 @@ def index(req):
         "css_file": "" if settings.DEBUG else MANIFEST["src/main.ts"]["css"][0],
         "user": user,
     }
-    print(user)
     return render(req, "core/index.html", context)
 
+@login_required
+def user_info(req):
+    if req.user.is_authenticated:
+        return JsonResponse({
+            "success": True,
+            "user": {
+                "username": req.user.username,
+                "is_staff": req.user.is_staff
+            }
+        })
+    return JsonResponse({"success": False, "error": "User not authenticated"})
 @login_required
 def products(req):
     products = Product.objects.all().order_by("-id")

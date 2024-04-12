@@ -39,31 +39,35 @@ export const NewList = () => {
   }
 
   return (
-    <form onSubmit={saveProduct}>
-      <div>
-        Name:
-        <input value={name} onChange={e => setName(e.target.value)} />
-      </div>
-      <div>
-        Description:
-        <textarea value={description} onChange={e => setDescription(e.target.value)} />
-      </div>
-      <div>
-        Quantity:
-        <input type="number" value={quantity} onChange={e => setQuantity(e.target.value)} />
-      </div>
-      {loading ?(
-        <div style={{display : "flex"}}>
-          <BeatLoader
-          color={"#123abc"}
-          loading={true}
-          size={10}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-          />
+    <div className="content">
+      <h1 className="title">Add New Product</h1>
+      <form onSubmit={saveProduct}>
+        <div>
+          Name:
+          <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </div>
-      ):
-      (<button type="submit">Save</button>)}
-    </form>
+        <div>
+          Description:
+          <textarea value={description} onChange={e => setDescription(e.target.value)} />
+        </div>
+        <div>
+          Quantity:
+          <input type="number" value={quantity} onChange={e => setQuantity(e.target.value)} />
+        </div>
+        {loading ?(
+          <div style={{display : "flex"}}>
+            <BeatLoader
+            color={"#123abc"}
+            loading={true}
+            size={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+            />
+          </div>
+        ):
+        (<button type="submit" className="button">Save</button>)}
+      </form>
+    </div>
+
   );
 };

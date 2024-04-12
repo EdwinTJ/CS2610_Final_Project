@@ -100,7 +100,7 @@ export const DeleteProduct = () => {
             />
           </div>
         ) : 
-        (<button type="submit">Delete</button>)}
+        (<button type="submit" className="button">Delete</button>)}
       </form>
     </div>
   );

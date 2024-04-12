@@ -110,7 +110,7 @@ export const EditProduct = () => {
             />
         </div>
         ):
-        (<button type="submit">Save</button>)}
+        (<button type="submit" className="button">Save</button>)}
       </form>
     </div>
   );

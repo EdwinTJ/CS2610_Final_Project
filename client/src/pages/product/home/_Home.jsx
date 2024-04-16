@@ -33,13 +33,13 @@ export const Home = () => {
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage(prev => prev + 1);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage(prev => prev - 1);
     }
   };
 
@@ -91,15 +91,21 @@ export const Home = () => {
           ))}
         </tbody>
       </table>
-      <div style={{ textAlign: "center" }}>
-          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-            Previous Page
-          </button>
-          <span style={{ margin: "0 10px" }}>Page {currentPage} of {totalPages}</span>
-          <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-            Next Page
-          </button>
-        </div>
+        <section className="pagination">
+          <a onClick={handlePreviousPage} style={{ cursor: "pointer" }}>&laquo;</a>
+          {[...Array(totalPages).keys()].map(number =>(
+            <a 
+            key={number + 1}
+            onClick={()=> setCurrentPage(number +1)}
+            className={currentPage ===number + 1 ? "active" : ""}
+            style={{cursor : "pointer"}}
+            >
+              {number + 1}
+            </a>
+          ))}
+          <a onClick={handleNextPage} style={{ cursor: "pointer" }}>&raquo;</a>
+
+        </section>
       </div>
     </div>
   )

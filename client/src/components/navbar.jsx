@@ -27,7 +27,6 @@ export const Navbar = () => {
     const data = await res.json();
     if (res.ok) {
       setUser(data.user);
-      console.log(data.user);
     } else {
       // handle failed fetch
       toast.error(user.error || "Failed to fetch user");

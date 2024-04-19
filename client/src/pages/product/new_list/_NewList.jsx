@@ -2,7 +2,7 @@ import { useState } from "react";
 import cookie from "cookie";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
-import { FadeLoader,BeatLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
 export const NewList = () => {
   const [name, setName] = useState("");

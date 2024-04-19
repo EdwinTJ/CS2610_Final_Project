@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
 import "../styles.css";
 import { toast } from "sonner";
+
 export const Navbar = () => { 
   const [user,setUser] = useState({
     username: "Guest",
@@ -28,7 +29,6 @@ export const Navbar = () => {
     if (res.ok) {
       setUser(data.user);
     } else {
-      // handle failed fetch
       toast.error(user.error || "Failed to fetch user");
     }
 

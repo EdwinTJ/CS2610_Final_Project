@@ -9,7 +9,7 @@ export const DeleteProduct = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const productID = parseInt(id); // Convert the ID to an integer using
+  const productID = parseInt(id);
   useEffect(() => {
     async function fetchProduct() {
       try {
@@ -54,13 +54,6 @@ export const DeleteProduct = () => {
       toast.error("Error deleting product:");
     }
     setLoading(false);
-  }
-
-  // TODO:
-  // Ask teacher why this would not work
-  // Call it in the form onSubmit
-  function handleDelete(e) {
-    deleteProduct();
   }
 
   if (!product) {

@@ -44,6 +44,7 @@ def user_info(req):
             }
         })
     return JsonResponse({"success": False, "error": "User not authenticated"})
+
 @login_required
 def products(req):
     products = Product.objects.all().order_by("-id")

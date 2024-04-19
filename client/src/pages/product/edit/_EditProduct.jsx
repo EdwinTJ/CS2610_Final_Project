@@ -10,7 +10,7 @@ export const EditProduct = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const productID = parseInt(id); // Convert the ID to an integer using
+  const productID = parseInt(id);
   useEffect(() => {
     async function fetchProduct() {
       try {
@@ -62,15 +62,6 @@ export const EditProduct = () => {
       ...prevState,
       [name]: value
     }));
-  }
-
-
-  // TODO:
-  // Ask teacher why this would not work
-  // Call it in the form onSubmit
-  function handleSubmit(e) {
-    e.preventDefault();
-    updateProduct();
   }
  
   if (!product) {
